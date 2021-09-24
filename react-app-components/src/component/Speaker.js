@@ -1,9 +1,9 @@
-export function Speaker({ speaker, showSessions }) {
+export function Speaker({ speaker, showSessions, onFavoriteToggle }) {
   return (
     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
       <div className="card card-height p-4 mt-4">
         <SpeakerImage {...speaker} />
-        <SpeakerDemographics {...speaker} />
+        <SpeakerDemographics {...speaker} onFavoriteToggle={onFavoriteToggle} />
       </div>
       {showSessions ? <Sessions sessions={speaker.sessions} /> : ""}
     </div>
@@ -16,6 +16,7 @@ function SpeakerDemographics({
   company,
   twitterHandle,
   favorite,
+  onFavoriteToggle,
 }) {
   return (
     <div className="speaker-info">
@@ -24,6 +25,10 @@ function SpeakerDemographics({
           {first} {last}
         </h3>
       </div>
+      <SpeakerFavorite
+        favorite={favorite}
+        onFavoriteToggle={onFavoriteToggle}
+      />
       <div>
         <p className="card-description">{bio}</p>
         <div className="social d-flex flex-row mt-4">
@@ -37,6 +42,20 @@ function SpeakerDemographics({
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+function SpeakerFavorite({ favorite, onFavoriteToggle }) {
+  return (
+    <div className="action padB1">
+      <span onClick={onFavoriteToggle}>
+        <i
+          className={
+            favorite === true ? "fa fa-star orange" : "fa fa-star-o orange"
+          }
+        />{" "}
+        Favorite
+      </span>
     </div>
   );
 }
